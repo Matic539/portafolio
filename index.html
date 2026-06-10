@@ -1,0 +1,556 @@
+<!DOCTYPE html>
+<html lang="es" data-theme="dark">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Matias López — Offensive Security</title>
+<meta name="description" content="Matias López — Pentester | Offensive Security | eJPTv2 | CTF Player">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700;800&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#0b0f0c;
+  --bg-alt:#10151180;
+  --surface:#121813;
+  --surface-2:#161d17;
+  --border:#1f2a21;
+  --text:#d7e0d9;
+  --text-dim:#8b9a8e;
+  --green:#9fef00;
+  --green-dim:#9fef0022;
+  --red:#ff3e3e;
+  --red-dim:#ff3e3e1a;
+  --glow:0 0 24px #9fef0033;
+  --mono:'JetBrains Mono',monospace;
+  --sans:'Inter',sans-serif;
+}
+[data-theme="light"]{
+  --bg:#f6f8f5;
+  --bg-alt:#eef2ec80;
+  --surface:#ffffff;
+  --surface-2:#f0f4ee;
+  --border:#dde5da;
+  --text:#16201a;
+  --text-dim:#5b6b5f;
+  --green:#3e8e00;
+  --green-dim:#3e8e0018;
+  --red:#d62828;
+  --red-dim:#d6282814;
+  --glow:0 6px 24px #3e8e0022;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{
+  background:var(--bg);
+  color:var(--text);
+  font-family:var(--sans);
+  line-height:1.6;
+  transition:background .3s,color .3s;
+  overflow-x:hidden;
+}
+::selection{background:var(--green);color:#0b0f0c}
+
+/* grid background */
+body::before{
+  content:"";position:fixed;inset:0;z-index:-1;
+  background-image:linear-gradient(var(--border) 1px,transparent 1px),linear-gradient(90deg,var(--border) 1px,transparent 1px);
+  background-size:48px 48px;
+  opacity:.25;
+  mask-image:radial-gradient(ellipse 90% 70% at 50% 0%,black 30%,transparent 75%);
+  -webkit-mask-image:radial-gradient(ellipse 90% 70% at 50% 0%,black 30%,transparent 75%);
+}
+
+.container{max-width:1080px;margin:0 auto;padding:0 24px}
+
+/* ---------- NAV ---------- */
+nav{
+  position:sticky;top:0;z-index:50;
+  backdrop-filter:blur(14px);
+  background:var(--bg-alt);
+  border-bottom:1px solid var(--border);
+}
+.nav-inner{display:flex;align-items:center;justify-content:space-between;height:64px;max-width:1080px;margin:0 auto;padding:0 24px}
+.logo{font-family:var(--mono);font-weight:700;font-size:.95rem;color:var(--text);text-decoration:none}
+.logo .p{color:var(--green)}
+.logo .r{color:var(--red)}
+.nav-links{display:flex;align-items:center;gap:26px}
+.nav-links a{color:var(--text-dim);text-decoration:none;font-size:.85rem;font-weight:500;font-family:var(--mono);transition:color .2s}
+.nav-links a:hover{color:var(--green)}
+.nav-links a::before{content:"./";color:var(--green);opacity:0;transition:opacity .2s}
+.nav-links a:hover::before{opacity:1}
+.controls{display:flex;gap:10px;align-items:center}
+.ctrl-btn{
+  font-family:var(--mono);font-size:.78rem;font-weight:700;
+  background:var(--surface);color:var(--text);
+  border:1px solid var(--border);border-radius:6px;
+  padding:7px 12px;cursor:pointer;transition:all .2s;
+}
+.ctrl-btn:hover{border-color:var(--green);color:var(--green);box-shadow:var(--glow)}
+
+/* ---------- HERO ---------- */
+.hero{padding:96px 0 80px;display:grid;grid-template-columns:1.25fr 1fr;gap:48px;align-items:center}
+.kicker{font-family:var(--mono);color:var(--green);font-size:.85rem;letter-spacing:.06em;margin-bottom:14px}
+.kicker::before{content:"$ ";color:var(--red)}
+h1{font-size:clamp(2.2rem,5vw,3.4rem);line-height:1.1;font-weight:800;letter-spacing:-.02em;margin-bottom:10px}
+h1 .accent{color:var(--green)}
+.role{font-family:var(--mono);font-size:clamp(1rem,2.2vw,1.25rem);color:var(--text-dim);margin-bottom:22px;min-height:1.6em}
+.role .cursor{display:inline-block;width:.55em;height:1.1em;background:var(--green);vertical-align:text-bottom;animation:blink 1s steps(1) infinite}
+@keyframes blink{50%{opacity:0}}
+.hero p.lead{color:var(--text-dim);max-width:520px;margin-bottom:30px}
+.btn-row{display:flex;gap:14px;flex-wrap:wrap}
+.btn{
+  font-family:var(--mono);font-weight:700;font-size:.88rem;
+  padding:12px 22px;border-radius:8px;text-decoration:none;
+  transition:all .2s;border:1px solid transparent;display:inline-block;
+}
+.btn-primary{background:var(--green);color:#0b0f0c}
+.btn-primary:hover{box-shadow:0 0 30px #9fef0066;transform:translateY(-2px)}
+.btn-ghost{border-color:var(--border);color:var(--text)}
+.btn-ghost:hover{border-color:var(--red);color:var(--red)}
+.photo-wrap{position:relative;justify-self:center}
+.photo-wrap::before{
+  content:"";position:absolute;inset:-3px;border-radius:18px;
+  background:linear-gradient(135deg,var(--green),transparent 40%,transparent 60%,var(--red));
+  z-index:-1;
+}
+.photo-wrap img{
+  width:min(320px,70vw);aspect-ratio:1/1;object-fit:cover;
+  border-radius:16px;display:block;filter:saturate(.95);
+}
+.photo-tag{
+  position:absolute;bottom:14px;left:14px;right:14px;
+  font-family:var(--mono);font-size:.72rem;
+  background:#0b0f0cd9;color:var(--green);
+  border:1px solid var(--border);border-radius:8px;padding:8px 12px;
+  backdrop-filter:blur(6px);
+}
+[data-theme="light"] .photo-tag{background:#ffffffd9;color:var(--green)}
+.photo-tag .ok{color:var(--red)}
+
+/* ---------- SECTIONS ---------- */
+section{padding:72px 0}
+.sec-title{font-family:var(--mono);font-size:1.5rem;font-weight:800;margin-bottom:36px;display:flex;align-items:center;gap:14px}
+.sec-title::before{content:attr(data-num);color:var(--red);font-size:.95rem;font-weight:500}
+.sec-title::after{content:"";flex:1;height:1px;background:var(--border)}
+.sec-title .hash{color:var(--green)}
+
+/* about */
+.about-grid{display:grid;grid-template-columns:1.4fr 1fr;gap:40px}
+.about-text p{color:var(--text-dim);margin-bottom:16px}
+.about-text strong{color:var(--text)}
+.about-text .hl{color:var(--green);font-family:var(--mono);font-size:.92em}
+.terminal{
+  background:var(--surface);border:1px solid var(--border);border-radius:12px;
+  font-family:var(--mono);font-size:.8rem;overflow:hidden;align-self:start;
+}
+.term-bar{display:flex;gap:7px;padding:11px 14px;border-bottom:1px solid var(--border)}
+.term-bar i{width:11px;height:11px;border-radius:50%;display:block}
+.term-bar i:nth-child(1){background:var(--red)}
+.term-bar i:nth-child(2){background:#f7b32b}
+.term-bar i:nth-child(3){background:var(--green)}
+.term-body{padding:18px;line-height:1.9;color:var(--text-dim)}
+.term-body .cmd{color:var(--text)}
+.term-body .cmd::before{content:"$ ";color:var(--green)}
+.term-body .out{color:var(--green)}
+.term-body .out.r{color:var(--red)}
+
+/* timeline */
+.timeline{position:relative;padding-left:28px;display:grid;gap:28px}
+.timeline::before{content:"";position:absolute;left:5px;top:6px;bottom:6px;width:1px;background:var(--border)}
+.tl-item{position:relative}
+.tl-item::before{
+  content:"";position:absolute;left:-28px;top:6px;width:11px;height:11px;border-radius:50%;
+  background:var(--green);box-shadow:0 0 10px var(--green);
+}
+.tl-item.edu::before{background:var(--red);box-shadow:0 0 10px var(--red)}
+.tl-item .tl-date{font-family:var(--mono);font-size:.75rem;color:var(--red);margin-bottom:4px}
+.tl-item.edu .tl-date{color:var(--green)}
+.tl-item h3{font-size:1.02rem;margin-bottom:2px}
+.tl-item .tl-org{font-family:var(--mono);font-size:.82rem;color:var(--green);margin-bottom:8px}
+.tl-item.edu .tl-org{color:var(--text-dim)}
+.tl-item p{color:var(--text-dim);font-size:.9rem;max-width:680px}
+
+/* skills */
+.skill-cols{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:20px}
+.skill-card{
+  background:var(--surface);border:1px solid var(--border);border-radius:12px;
+  padding:24px;transition:all .25s;
+}
+.skill-card:hover{border-color:var(--green);transform:translateY(-4px);box-shadow:var(--glow)}
+.skill-card h3{font-family:var(--mono);font-size:.95rem;color:var(--green);margin-bottom:14px}
+.skill-card h3::before{content:"▸ ";color:var(--red)}
+.tags{display:flex;flex-wrap:wrap;gap:8px}
+.tag{
+  font-family:var(--mono);font-size:.74rem;font-weight:500;
+  background:var(--green-dim);color:var(--text);
+  border:1px solid var(--border);border-radius:6px;padding:5px 10px;
+}
+
+/* projects */
+.proj-grid{display:grid;gap:24px}
+.proj{
+  background:var(--surface);border:1px solid var(--border);border-radius:14px;
+  padding:30px;transition:all .25s;position:relative;overflow:hidden;
+}
+.proj::before{
+  content:"";position:absolute;top:0;left:0;right:0;height:2px;
+  background:linear-gradient(90deg,var(--green),var(--red));
+  opacity:0;transition:opacity .25s;
+}
+.proj:hover{border-color:var(--green);box-shadow:var(--glow)}
+.proj:hover::before{opacity:1}
+.proj-head{display:flex;justify-content:space-between;align-items:flex-start;gap:16px;margin-bottom:12px;flex-wrap:wrap}
+.proj h3{font-family:var(--mono);font-size:1.15rem}
+.proj h3 .dir{color:var(--green)}
+.featured-badge{
+  font-family:var(--mono);font-size:.68rem;font-weight:700;
+  color:var(--red);border:1px solid var(--red);border-radius:20px;padding:4px 12px;
+  background:var(--red-dim);
+}
+.proj p{color:var(--text-dim);font-size:.93rem;margin-bottom:18px;max-width:760px}
+.proj-foot{display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:14px}
+.proj-link{font-family:var(--mono);font-size:.82rem;font-weight:700;color:var(--green);text-decoration:none}
+.proj-link:hover{text-decoration:underline}
+.feat-list{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:10px;margin-bottom:20px}
+.feat-list li{
+  list-style:none;font-size:.82rem;color:var(--text-dim);
+  font-family:var(--mono);
+}
+.feat-list li::before{content:"[+] ";color:var(--green)}
+
+/* certs */
+.cert-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:20px}
+.cert{
+  background:var(--surface);border:1px solid var(--border);border-radius:12px;
+  padding:24px;display:flex;gap:16px;align-items:flex-start;transition:all .25s;
+  text-decoration:none;color:var(--text);
+}
+.cert:hover{border-color:var(--red);transform:translateY(-3px)}
+.cert .icon{
+  font-family:var(--mono);font-weight:800;color:var(--green);
+  border:1px solid var(--green);border-radius:10px;
+  width:46px;height:46px;display:flex;align-items:center;justify-content:center;
+  flex-shrink:0;background:var(--green-dim);font-size:1.1rem;
+}
+.cert h3{font-size:.98rem;margin-bottom:4px}
+.cert span{color:var(--text-dim);font-size:.82rem}
+
+/* contact */
+.contact-box{
+  background:var(--surface);border:1px solid var(--border);border-radius:16px;
+  padding:48px 36px;text-align:center;
+}
+.contact-box h2{font-family:var(--mono);font-size:1.6rem;margin-bottom:12px}
+.contact-box h2 .g{color:var(--green)}
+.contact-box p{color:var(--text-dim);max-width:520px;margin:0 auto 28px}
+.contact-links{display:flex;justify-content:center;gap:14px;flex-wrap:wrap}
+
+footer{border-top:1px solid var(--border);padding:28px 0;text-align:center;font-family:var(--mono);font-size:.78rem;color:var(--text-dim)}
+footer .g{color:var(--green)}
+footer .r{color:var(--red)}
+
+/* reveal animation */
+.reveal{opacity:0;transform:translateY(24px);transition:opacity .6s,transform .6s}
+.reveal.vis{opacity:1;transform:none}
+
+@media(max-width:820px){
+  .hero{grid-template-columns:1fr;padding:56px 0 48px;text-align:center}
+  .hero p.lead{margin:0 auto 30px}
+  .btn-row{justify-content:center}
+  .photo-wrap{order:-1}
+  .about-grid{grid-template-columns:1fr}
+  .nav-links{display:none}
+}
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="nav-inner">
+    <a class="logo" href="#"><span class="p">matias</span>@<span class="r">lopez</span>:~$</a>
+    <div class="nav-links">
+      <a href="#about" data-i18n="nav_about">sobre-mí</a>
+      <a href="#journey" data-i18n="nav_journey">trayectoria</a>
+      <a href="#skills" data-i18n="nav_skills">skills</a>
+      <a href="#projects" data-i18n="nav_projects">proyectos</a>
+      <a href="#certs" data-i18n="nav_certs">certificaciones</a>
+      <a href="#contact" data-i18n="nav_contact">contacto</a>
+    </div>
+    <div class="controls">
+      <button class="ctrl-btn" id="langBtn" title="Switch language">EN</button>
+      <button class="ctrl-btn" id="themeBtn" title="Toggle theme">☀</button>
+    </div>
+  </div>
+</nav>
+
+<header class="hero container">
+  <div>
+    <div class="kicker">whoami</div>
+    <h1>Matias <span class="accent">López</span></h1>
+    <div class="role"><span id="typed"></span><span class="cursor"></span></div>
+    <p class="lead" data-i18n="hero_lead">Apasionado por la ciberseguridad ofensiva. Pentesting, escalada de privilegios y desarrollo de herramientas propias para hacking. CTF player constante.</p>
+    <div class="btn-row">
+      <a class="btn btn-primary" href="#projects" data-i18n="hero_cta1">ver proyectos →</a>
+      <a class="btn btn-ghost" href="#contact" data-i18n="hero_cta2">contactar</a>
+    </div>
+  </div>
+  <div class="photo-wrap">
+    <img src="assets/matias.jpg" alt="Matias López">
+    <div class="photo-tag">[<span class="ok">root</span>@iquique-cl]&nbsp;— eJPTv2</div>
+  </div>
+</header>
+
+<main class="container">
+
+<section id="about" class="reveal">
+  <h2 class="sec-title" data-num="01."><span class="hash">#</span> <span data-i18n="t_about">sobre mí</span></h2>
+  <div class="about-grid">
+    <div class="about-text">
+      <p data-i18n="about_p1">Soy <strong>Matias Renato López García</strong>, estudiante de <strong>Ingeniería Informática</strong> en INACAP, desde Iquique, Chile. Mi fuerte es el lado ofensivo de la ciberseguridad: pentesting, enumeración de sistemas y escalada de privilegios en Linux, con la mira puesta en crecer como <strong>pentester y Red Teamer</strong>.</p>
+      <p data-i18n="about_p2">Certificado <span class="hl">eJPTv2</span>, entreno constantemente en <strong>Hack The Box</strong>, <strong>TryHackMe</strong> y OffSec, además de montar laboratorios propios con Kali Linux. Desarrollo mis propias herramientas en <span class="hl">Python</span> y <span class="hl">Bash</span> para automatizar fases de auditoría.</p>
+      <p data-i18n="about_p3">Autodidacta, persistente y con mucha curiosidad técnica: me interesa entender cómo funcionan realmente los sistemas, más allá de solo usar herramientas. Mi enfoque: pensar como atacante para encontrar las vulnerabilidades antes que ellos.</p>
+    </div>
+    <div class="terminal">
+      <div class="term-bar"><i></i><i></i><i></i></div>
+      <div class="term-body">
+        <div class="cmd">cat profile.txt</div>
+        <div><span class="out">name:</span> Matias López</div>
+        <div><span class="out">base:</span> Iquique, Chile 🇨🇱</div>
+        <div><span class="out">focus:</span> <span class="out r">offensive security</span></div>
+        <div><span class="out">cert:</span> eJPTv2</div>
+        <div><span class="out">status:</span> CTF player ⚔</div>
+        <div class="cmd">_</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="journey" class="reveal">
+  <h2 class="sec-title" data-num="02."><span class="hash">#</span> <span data-i18n="t_journey">trayectoria</span></h2>
+  <div class="timeline">
+    <div class="tl-item">
+      <div class="tl-date" data-i18n="exp1_date">feb 2026 — actualidad</div>
+      <h3 data-i18n="exp1_t">Encargado de Biblioteca y Soporte TI</h3>
+      <div class="tl-org" data-i18n="exp1_org">Colegio San Lorenzo de Tarapacá · Alto Hospicio, Chile</div>
+      <p data-i18n="exp1_p">Gestión de inventario de equipos computacionales y apoyo en la mantención y configuración de los equipos del laboratorio.</p>
+    </div>
+    <div class="tl-item edu">
+      <div class="tl-date">2022 — 2026</div>
+      <h3 data-i18n="edu1_t">Ingeniería Informática</h3>
+      <div class="tl-org">INACAP</div>
+      <p data-i18n="edu1_p">Formación en desarrollo de software, redes y sistemas, complementada por especialización autodidacta en seguridad ofensiva.</p>
+    </div>
+  </div>
+</section>
+
+<section id="skills" class="reveal">
+  <h2 class="sec-title" data-num="03."><span class="hash">#</span> <span data-i18n="t_skills">skills</span></h2>
+  <div class="skill-cols">
+    <div class="skill-card">
+      <h3 data-i18n="sk1">Lenguajes</h3>
+      <div class="tags">
+        <span class="tag">Python</span><span class="tag">Bash</span>
+        <span class="tag">JavaScript</span><span class="tag">TypeScript</span>
+      </div>
+    </div>
+    <div class="skill-card">
+      <h3 data-i18n="sk2">Seguridad Ofensiva</h3>
+      <div class="tags">
+        <span class="tag">Pentesting</span><span class="tag" data-i18n="sk2a">Escalada de privilegios</span>
+        <span class="tag">Linux Enumeration</span><span class="tag">OSINT</span><span class="tag">GTFOBins</span>
+      </div>
+    </div>
+    <div class="skill-card">
+      <h3 data-i18n="sk3">Herramientas & Entornos</h3>
+      <div class="tags">
+        <span class="tag">Kali Linux</span><span class="tag">Git</span>
+        <span class="tag">Burp Suite</span><span class="tag">Nmap</span><span class="tag">Metasploit</span>
+        <span class="tag" style="border-style:dashed;color:var(--text-dim)" data-i18n="sk_more">+ muchas más…</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="projects" class="reveal">
+  <h2 class="sec-title" data-num="04."><span class="hash">#</span> <span data-i18n="t_projects">proyectos</span></h2>
+  <div class="proj-grid">
+    <article class="proj">
+      <div class="proj-head">
+        <h3><span class="dir">~/</span>roothunter</h3>
+        <span class="featured-badge" data-i18n="badge_feat">★ DESTACADO</span>
+      </div>
+      <p data-i18n="rh_desc">Suite de auditoría ofensiva para Linux: recolección de evidencia y análisis de vectores de escalada de privilegios con priorización tipo pentester. 17 módulos de detección, base local de técnicas GTFOBins y motor de análisis que sugiere exploits CVE, attack paths encadenados y comandos exactos priorizados por tier.</p>
+      <ul class="feat-list">
+        <li data-i18n="rh_f1">17 módulos de recolección</li>
+        <li data-i18n="rh_f2">Detección de CVEs aplicables</li>
+        <li data-i18n="rh_f3">Attack paths encadenados</li>
+        <li data-i18n="rh_f4">Score de riesgo 0–100</li>
+      </ul>
+      <div class="proj-foot">
+        <div class="tags"><span class="tag">Bash</span><span class="tag">Python</span><span class="tag">Linux PrivEsc</span></div>
+        <a class="proj-link" href="https://github.com/Matic539/roothunter" target="_blank" rel="noopener">github.com/Matic539/roothunter ↗</a>
+      </div>
+    </article>
+    <article class="proj">
+      <div class="proj-head">
+        <h3><span class="dir">~/</span>ReconPy</h3>
+      </div>
+      <p data-i18n="rp_desc">Herramienta OSINT en Python para reconocimiento de objetivos: recopila información de dominios y URLs en la fase inicial de un pentest.</p>
+      <div class="proj-foot">
+        <div class="tags"><span class="tag">Python</span><span class="tag">OSINT</span><span class="tag">Recon</span></div>
+        <a class="proj-link" href="https://github.com/Matic539/ReconPy" target="_blank" rel="noopener">github.com/Matic539/ReconPy ↗</a>
+      </div>
+    </article>
+  </div>
+</section>
+
+<section id="certs" class="reveal">
+  <h2 class="sec-title" data-num="05."><span class="hash">#</span> <span data-i18n="t_certs">certificaciones</span></h2>
+  <div class="cert-grid">
+    <a class="cert" href="https://certs.ine.com/bce95518-415d-4196-844b-72dc46fa972f" target="_blank" rel="noopener">
+      <div class="icon">e</div>
+      <div>
+        <h3>eJPTv2</h3>
+        <span data-i18n="cert1_sub">Junior Penetration Tester — INE Security · mar 2026 · ver credencial ↗</span>
+      </div>
+    </a>
+    <a class="cert" href="https://portal.offsec.com/public-profile/fbfeb24b-0292-4b87-9c9e-f96633ca0946" target="_blank" rel="noopener">
+      <div class="icon">⚑</div>
+      <div>
+        <h3>OffSec</h3>
+        <span data-i18n="cert2_sub">Perfil público OffSec — formación continua ↗</span>
+      </div>
+    </a>
+    <div class="cert">
+      <div class="icon">⚔</div>
+      <div>
+        <h3 data-i18n="cert3_t">CTF Player</h3>
+        <span data-i18n="cert3_sub">Competidor activo en Capture The Flag</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="contact" class="reveal">
+  <div class="contact-box">
+    <h2><span class="g">$</span> <span data-i18n="t_contact">iniciar conexión</span></h2>
+    <p data-i18n="contact_p">¿Tienes un proyecto, una oportunidad o simplemente quieres hablar de seguridad ofensiva? Mi inbox está abierto.</p>
+    <div class="contact-links">
+      <a class="btn btn-primary" href="mailto:lopezg.matiasr@gmail.com">lopezg.matiasr@gmail.com</a>
+      <a class="btn btn-ghost" href="https://github.com/Matic539" target="_blank" rel="noopener">GitHub</a>
+      <a class="btn btn-ghost" href="https://www.linkedin.com/in/matias-l%C3%B3pez-6978b5268/" target="_blank" rel="noopener">LinkedIn</a>
+    </div>
+  </div>
+</section>
+
+</main>
+
+<footer>
+  <span class="g">©</span> 2026 Matias López — <span data-i18n="footer_t">diseñado y construido con</span> <span class="r">&lt;/&gt;</span>
+</footer>
+
+<script>
+/* ---------- i18n ---------- */
+const I18N = {
+  es: {
+    nav_about:"sobre-mí", nav_journey:"trayectoria", nav_skills:"skills", nav_projects:"proyectos", nav_certs:"certificaciones", nav_contact:"contacto",
+    hero_lead:"Apasionado por la ciberseguridad ofensiva. Pentesting, escalada de privilegios y desarrollo de herramientas propias para hacking. CTF player constante.",
+    hero_cta1:"ver proyectos →", hero_cta2:"contactar",
+    t_about:"sobre mí", t_journey:"trayectoria", t_skills:"skills", t_projects:"proyectos", t_certs:"certificaciones", t_contact:"iniciar conexión",
+    about_p1:'Soy <strong>Matias Renato López García</strong>, estudiante de <strong>Ingeniería Informática</strong> en INACAP, desde Iquique, Chile. Mi fuerte es el lado ofensivo de la ciberseguridad: pentesting, enumeración de sistemas y escalada de privilegios en Linux, con la mira puesta en crecer como <strong>pentester y Red Teamer</strong>.',
+    about_p2:'Certificado <span class="hl">eJPTv2</span>, entreno constantemente en <strong>Hack The Box</strong>, <strong>TryHackMe</strong> y OffSec, además de montar laboratorios propios con Kali Linux. Desarrollo mis propias herramientas en <span class="hl">Python</span> y <span class="hl">Bash</span> para automatizar fases de auditoría.',
+    about_p3:"Autodidacta, persistente y con mucha curiosidad técnica: me interesa entender cómo funcionan realmente los sistemas, más allá de solo usar herramientas. Mi enfoque: pensar como atacante para encontrar las vulnerabilidades antes que ellos.",
+    exp1_date:"feb 2026 — actualidad",
+    exp1_t:"Encargado de Biblioteca y Soporte TI",
+    exp1_org:"Colegio San Lorenzo de Tarapacá · Alto Hospicio, Chile",
+    exp1_p:"Gestión de inventario de equipos computacionales y apoyo en la mantención y configuración de los equipos del laboratorio.",
+    edu1_t:"Ingeniería Informática",
+    edu1_p:"Formación en desarrollo de software, redes y sistemas, complementada por especialización autodidacta en seguridad ofensiva.",
+    sk1:"Lenguajes", sk2:"Seguridad Ofensiva", sk2a:"Escalada de privilegios", sk3:"Herramientas & Entornos", sk_more:"+ muchas más…",
+    badge_feat:"★ DESTACADO",
+    rh_desc:"Suite de auditoría ofensiva para Linux: recolección de evidencia y análisis de vectores de escalada de privilegios con priorización tipo pentester. 17 módulos de detección, base local de técnicas GTFOBins y motor de análisis que sugiere exploits CVE, attack paths encadenados y comandos exactos priorizados por tier.",
+    rh_f1:"17 módulos de recolección", rh_f2:"Detección de CVEs aplicables", rh_f3:"Attack paths encadenados", rh_f4:"Score de riesgo 0–100",
+    rp_desc:"Herramienta OSINT en Python para reconocimiento de objetivos: recopila información de dominios y URLs en la fase inicial de un pentest.",
+    cert1_sub:"Junior Penetration Tester — INE Security · mar 2026 · ver credencial ↗",
+    cert2_sub:"Perfil público OffSec — formación continua ↗",
+    cert3_t:"CTF Player", cert3_sub:"Competidor activo en Capture The Flag",
+    contact_p:"¿Tienes un proyecto, una oportunidad o simplemente quieres hablar de seguridad ofensiva? Mi inbox está abierto.",
+    footer_t:"diseñado y construido con",
+    typed:["Offensive Security", "Pentester", "eJPTv2 Certified", "CTF Player", "Tool Developer"]
+  },
+  en: {
+    nav_about:"about-me", nav_journey:"journey", nav_skills:"skills", nav_projects:"projects", nav_certs:"certifications", nav_contact:"contact",
+    hero_lead:"Passionate about offensive cybersecurity. Pentesting, privilege escalation and building my own hacking tools. Constant CTF player.",
+    hero_cta1:"view projects →", hero_cta2:"get in touch",
+    t_about:"about me", t_journey:"journey", t_skills:"skills", t_projects:"projects", t_certs:"certifications", t_contact:"open connection",
+    about_p1:'I\'m <strong>Matias Renato López García</strong>, a <strong>Computer Engineering</strong> student at INACAP, based in Iquique, Chile. My strength is the offensive side of cybersecurity: pentesting, system enumeration and Linux privilege escalation, aiming to grow as a <strong>pentester and Red Teamer</strong>.',
+    about_p2:'<span class="hl">eJPTv2</span> certified, I constantly train on <strong>Hack The Box</strong>, <strong>TryHackMe</strong> and OffSec, and build my own labs with Kali Linux. I develop my own tools in <span class="hl">Python</span> and <span class="hl">Bash</span> to automate audit phases.',
+    about_p3:"Self-taught, persistent and deeply curious: I want to understand how systems really work, beyond just using tools. My approach: think like an attacker to find the vulnerabilities before they do.",
+    exp1_date:"Feb 2026 — present",
+    exp1_t:"Library Manager & IT Support",
+    exp1_org:"Colegio San Lorenzo de Tarapacá · Alto Hospicio, Chile",
+    exp1_p:"Computer equipment inventory management and support in the maintenance and configuration of laboratory machines.",
+    edu1_t:"Computer Engineering",
+    edu1_p:"Training in software development, networks and systems, complemented by self-taught specialization in offensive security.",
+    sk1:"Languages", sk2:"Offensive Security", sk2a:"Privilege Escalation", sk3:"Tools & Environments", sk_more:"+ many more…",
+    badge_feat:"★ FEATURED",
+    rh_desc:"Offensive audit suite for Linux: evidence collection and privilege-escalation vector analysis with pentester-style prioritization. 17 detection modules, a local GTFOBins technique base and an analysis engine that suggests applicable CVE exploits, chained attack paths and exact tier-prioritized commands.",
+    rh_f1:"17 collection modules", rh_f2:"Applicable CVE detection", rh_f3:"Chained attack paths", rh_f4:"0–100 risk score",
+    rp_desc:"Python OSINT tool for target reconnaissance: gathers domain and URL information during the initial phase of a pentest.",
+    cert1_sub:"Junior Penetration Tester — INE Security · Mar 2026 · view credential ↗",
+    cert2_sub:"OffSec public profile — continuous training ↗",
+    cert3_t:"CTF Player", cert3_sub:"Active Capture The Flag competitor",
+    contact_p:"Got a project, an opportunity, or just want to talk offensive security? My inbox is open.",
+    footer_t:"designed & built with",
+    typed:["Offensive Security", "Pentester", "eJPTv2 Certified", "CTF Player", "Tool Developer"]
+  }
+};
+
+let lang = localStorage.getItem("lang") || "es";
+let theme = localStorage.getItem("theme") || "dark";
+
+const langBtn = document.getElementById("langBtn");
+const themeBtn = document.getElementById("themeBtn");
+
+function applyLang(){
+  document.documentElement.lang = lang;
+  langBtn.textContent = lang === "es" ? "EN" : "ES";
+  document.querySelectorAll("[data-i18n]").forEach(el=>{
+    const k = el.getAttribute("data-i18n");
+    if (I18N[lang][k] !== undefined) el.innerHTML = I18N[lang][k];
+  });
+}
+function applyTheme(){
+  document.documentElement.setAttribute("data-theme", theme);
+  themeBtn.textContent = theme === "dark" ? "☀" : "☾";
+}
+langBtn.addEventListener("click", ()=>{ lang = lang==="es"?"en":"es"; localStorage.setItem("lang",lang); applyLang(); });
+themeBtn.addEventListener("click", ()=>{ theme = theme==="dark"?"light":"dark"; localStorage.setItem("theme",theme); applyTheme(); });
+applyLang(); applyTheme();
+
+/* ---------- typing effect ---------- */
+const typedEl = document.getElementById("typed");
+let ti=0, ci=0, deleting=false;
+function type(){
+  const words = I18N[lang].typed;
+  const word = words[ti % words.length];
+  typedEl.textContent = word.slice(0, ci);
+  if(!deleting){
+    if(ci < word.length){ ci++; setTimeout(type, 70); }
+    else { deleting=true; setTimeout(type, 1800); }
+  } else {
+    if(ci > 0){ ci--; setTimeout(type, 35); }
+    else { deleting=false; ti++; setTimeout(type, 350); }
+  }
+}
+type();
+
+/* ---------- scroll reveal ---------- */
+const io = new IntersectionObserver(entries=>{
+  entries.forEach(e=>{ if(e.isIntersecting){ e.target.classList.add("vis"); io.unobserve(e.target); } });
+},{threshold:.12});
+document.querySelectorAll(".reveal").forEach(el=>io.observe(el));
+</script>
+</body>
+</html>
