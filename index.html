@@ -21,6 +21,10 @@
   --green-dim:#9fef0022;
   --red:#ff3e3e;
   --red-dim:#ff3e3e1a;
+  --blue:#4aa8ff;
+  --blue-dim:#4aa8ff1a;
+  --yellow:#f7b32b;
+  --purple:#b47bff;
   --glow:0 0 24px #9fef0033;
   --mono:'JetBrains Mono',monospace;
   --sans:'Inter',sans-serif;
@@ -37,6 +41,10 @@
   --green-dim:#3e8e0018;
   --red:#d62828;
   --red-dim:#d6282814;
+  --blue:#1f6feb;
+  --blue-dim:#1f6feb14;
+  --yellow:#b5820a;
+  --purple:#7c4dff;
   --glow:0 6px 24px #3e8e0022;
 }
 *{margin:0;padding:0;box-sizing:border-box}
@@ -219,6 +227,103 @@ section{padding:72px 0}
 }
 .feat-list li::before{content:"[+] ";color:var(--green)}
 
+/* writeups */
+.sec-intro{color:var(--text-dim);max-width:660px;margin:-18px 0 26px;font-size:.95rem}
+.wu-filters{display:flex;gap:10px;margin-bottom:26px;flex-wrap:wrap}
+.wu-filter{
+  font-family:var(--mono);font-size:.76rem;font-weight:600;
+  background:var(--surface);color:var(--text-dim);
+  border:1px solid var(--border);border-radius:20px;
+  padding:7px 16px;cursor:pointer;transition:all .2s;
+}
+.wu-filter:hover{color:var(--green);border-color:var(--green)}
+.wu-filter.active{background:var(--green-dim);color:var(--green);border-color:var(--green)}
+.wu-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:24px}
+.wu-empty{
+  grid-column:1/-1;font-family:var(--mono);font-size:.88rem;color:var(--text-dim);
+  border:1px dashed var(--border);border-radius:12px;padding:28px;text-align:center;
+}
+.wu-empty::before{content:"// ";color:var(--red)}
+.wu-preview-note{
+  grid-column:1/-1;font-family:var(--mono);font-size:.8rem;color:var(--yellow);
+  border:1px dashed var(--yellow);border-radius:10px;padding:11px 16px;
+  background:var(--yellow-dim,#f7b32b14);
+}
+.wu-card{
+  background:var(--surface);border:1px solid var(--border);border-radius:14px;
+  padding:24px;transition:all .25s;position:relative;overflow:hidden;
+  display:flex;flex-direction:column;gap:14px;
+}
+.wu-card::before{
+  content:"";position:absolute;top:0;left:0;right:0;height:2px;
+  background:linear-gradient(90deg,var(--green),var(--red));
+  opacity:0;transition:opacity .25s;
+}
+.wu-card.pub:hover{border-color:var(--green);box-shadow:var(--glow);transform:translateY(-4px)}
+.wu-card.pub:hover::before{opacity:1}
+.wu-card.locked{opacity:.72}
+.wu-card.cat-blue::before{background:linear-gradient(90deg,var(--blue),var(--green))}
+.wu-head{display:flex;justify-content:space-between;align-items:flex-start;gap:12px}
+.wu-idwrap{display:flex;align-items:center;gap:13px;min-width:0}
+.wu-thumb{width:52px;height:52px;flex-shrink:0}
+.wu-thumb img,.wu-img-ph{
+  width:52px;height:52px;border-radius:11px;object-fit:cover;
+  border:1px solid var(--border);background:var(--surface-2);display:block;
+}
+.wu-img-ph{
+  align-items:center;justify-content:center;
+  font-family:var(--mono);font-weight:800;font-size:1.4rem;color:var(--green);
+  background:var(--green-dim);
+}
+.wu-idtext{min-width:0}
+.wu-title{font-family:var(--mono);font-size:1.15rem;font-weight:700;color:var(--text);text-decoration:none;display:inline-block}
+.wu-title .dir{color:var(--green)}
+.wu-title-link:hover{color:var(--green)}
+.wu-platline{font-family:var(--mono);font-size:.72rem;color:var(--text-dim);margin-top:2px}
+.wu-ach{
+  font-family:var(--mono);font-size:.72rem;font-weight:600;color:var(--green);
+  text-decoration:none;margin-left:12px;white-space:nowrap;
+}
+.wu-ach:hover{text-decoration:underline}
+.wu-platform{
+  font-family:var(--mono);font-size:.66rem;font-weight:700;letter-spacing:.04em;
+  color:var(--text-dim);border:1px solid var(--border);border-radius:6px;
+  padding:4px 9px;white-space:nowrap;flex-shrink:0;
+}
+.wu-meta{display:flex;flex-wrap:wrap;gap:8px}
+.wu-chip{
+  font-family:var(--mono);font-size:.7rem;font-weight:600;
+  border:1px solid var(--border);border-radius:6px;padding:4px 10px;
+  color:var(--text-dim);display:inline-flex;align-items:center;gap:5px;
+}
+.wu-chip.cat-red{color:var(--red);border-color:var(--red);background:var(--red-dim)}
+.wu-chip.cat-blue{color:var(--blue);border-color:var(--blue);background:var(--blue-dim)}
+.wu-chip .dot{width:7px;height:7px;border-radius:50%;display:inline-block}
+.diff-easy{color:var(--green)}
+.diff-medium{color:var(--yellow)}
+.diff-hard{color:var(--red)}
+.diff-insane{color:var(--purple)}
+.wu-desc{color:var(--text-dim);font-size:.9rem;line-height:1.55;flex:1}
+.wu-tags{display:flex;flex-wrap:wrap;gap:7px}
+.wu-tag{
+  font-family:var(--mono);font-size:.7rem;font-weight:500;
+  background:var(--green-dim);color:var(--text);
+  border:1px solid var(--border);border-radius:6px;padding:4px 9px;
+}
+.wu-foot{
+  display:flex;justify-content:space-between;align-items:center;gap:10px;
+  border-top:1px solid var(--border);padding-top:14px;flex-wrap:wrap;
+}
+.wu-date{font-family:var(--mono);font-size:.74rem;color:var(--text-dim)}
+.wu-cta{font-family:var(--mono);font-size:.8rem;font-weight:700;color:var(--green)}
+.wu-cta.locked-cta{color:var(--text-dim)}
+.wu-status{
+  font-family:var(--mono);font-size:.66rem;font-weight:700;letter-spacing:.03em;
+  border-radius:20px;padding:4px 11px;white-space:nowrap;
+}
+.wu-status.active{color:var(--yellow);border:1px solid var(--yellow);background:#f7b32b14}
+.wu-status.retired{color:var(--green);border:1px solid var(--green);background:var(--green-dim)}
+
 /* certs */
 .cert-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:20px}
 .cert{
@@ -274,6 +379,7 @@ footer .r{color:var(--red)}
       <a href="#journey" data-i18n="nav_journey">trayectoria</a>
       <a href="#skills" data-i18n="nav_skills">skills</a>
       <a href="#projects" data-i18n="nav_projects">proyectos</a>
+      <a href="#writeups" data-i18n="nav_writeups">writeups</a>
       <a href="#certs" data-i18n="nav_certs">certificaciones</a>
       <a href="#contact" data-i18n="nav_contact">contacto</a>
     </div>
@@ -405,8 +511,19 @@ footer .r{color:var(--red)}
   </div>
 </section>
 
+<section id="writeups" class="reveal">
+  <h2 class="sec-title" data-num="05."><span class="hash">#</span> <span data-i18n="t_writeups">writeups</span></h2>
+  <p class="sec-intro" data-i18n="wu_intro">Máquinas y retos documentados paso a paso: reconocimiento, explotación, escalada de privilegios y — desde el otro lado — cómo se detecta y mitiga cada vector. Las máquinas activas se publican cuando se retiran.</p>
+  <div class="wu-filters">
+    <button class="wu-filter active" data-filter="all" data-i18n="wu_all">todos</button>
+    <button class="wu-filter" data-filter="red" data-i18n="wu_red">red team</button>
+    <button class="wu-filter" data-filter="blue" data-i18n="wu_blue">blue team</button>
+  </div>
+  <div class="wu-grid" id="wuGrid"></div>
+</section>
+
 <section id="certs" class="reveal">
-  <h2 class="sec-title" data-num="05."><span class="hash">#</span> <span data-i18n="t_certs">certificaciones</span></h2>
+  <h2 class="sec-title" data-num="06."><span class="hash">#</span> <span data-i18n="t_certs">certificaciones</span></h2>
   <div class="cert-grid">
     <a class="cert" href="https://certs.ine.com/bce95518-415d-4196-844b-72dc46fa972f" target="_blank" rel="noopener">
       <div class="icon">e</div>
@@ -454,10 +571,12 @@ footer .r{color:var(--red)}
 /* ---------- i18n ---------- */
 const I18N = {
   es: {
-    nav_about:"sobre-mí", nav_journey:"trayectoria", nav_skills:"skills", nav_projects:"proyectos", nav_certs:"certificaciones", nav_contact:"contacto",
+    nav_about:"sobre-mí", nav_journey:"trayectoria", nav_skills:"skills", nav_projects:"proyectos", nav_writeups:"writeups", nav_certs:"certificaciones", nav_contact:"contacto",
     hero_lead:"Apasionado por la ciberseguridad ofensiva. Pentesting, escalada de privilegios y desarrollo de herramientas propias para hacking. CTF player constante.",
     hero_cta1:"ver proyectos →", hero_cta2:"contactar",
-    t_about:"sobre mí", t_journey:"trayectoria", t_skills:"skills", t_projects:"proyectos", t_certs:"certificaciones", t_contact:"iniciar conexión",
+    t_about:"sobre mí", t_journey:"trayectoria", t_skills:"skills", t_projects:"proyectos", t_writeups:"writeups", t_certs:"certificaciones", t_contact:"iniciar conexión",
+    wu_intro:"Máquinas y retos documentados paso a paso: reconocimiento, explotación, escalada de privilegios y — desde el otro lado — cómo se detecta y mitiga cada vector. Las máquinas activas se publican cuando se retiran.",
+    wu_all:"todos", wu_red:"red team", wu_blue:"blue team",
     about_p1:'Soy <strong>Matias Renato López García</strong>, estudiante de <strong>Ingeniería Informática</strong> en INACAP, desde Iquique, Chile. Mi fuerte es el lado ofensivo de la ciberseguridad: pentesting, enumeración de sistemas y escalada de privilegios en Linux, con la mira puesta en crecer como <strong>pentester y Red Teamer</strong>.',
     about_p2:'Certificado <span class="hl">eJPTv2</span>, entreno constantemente en <strong>Hack The Box</strong>, <strong>TryHackMe</strong> y OffSec, además de montar laboratorios propios con Kali Linux. Desarrollo mis propias herramientas en <span class="hl">Python</span> y <span class="hl">Bash</span> para automatizar fases de auditoría.',
     about_p3:"Autodidacta, persistente y con mucha curiosidad técnica: me interesa entender cómo funcionan realmente los sistemas, más allá de solo usar herramientas. Mi enfoque: pensar como atacante para encontrar las vulnerabilidades antes que ellos.",
@@ -480,10 +599,12 @@ const I18N = {
     typed:["Offensive Security", "Pentester", "eJPTv2 Certified", "CTF Player", "Tool Developer"]
   },
   en: {
-    nav_about:"about-me", nav_journey:"journey", nav_skills:"skills", nav_projects:"projects", nav_certs:"certifications", nav_contact:"contact",
+    nav_about:"about-me", nav_journey:"journey", nav_skills:"skills", nav_projects:"projects", nav_writeups:"writeups", nav_certs:"certifications", nav_contact:"contact",
     hero_lead:"Passionate about offensive cybersecurity. Pentesting, privilege escalation and building my own hacking tools. Constant CTF player.",
     hero_cta1:"view projects →", hero_cta2:"get in touch",
-    t_about:"about me", t_journey:"journey", t_skills:"skills", t_projects:"projects", t_certs:"certifications", t_contact:"open connection",
+    t_about:"about me", t_journey:"journey", t_skills:"skills", t_projects:"projects", t_writeups:"writeups", t_certs:"certifications", t_contact:"open connection",
+    wu_intro:"Machines and challenges documented step by step: reconnaissance, exploitation, privilege escalation and — from the other side — how each vector is detected and mitigated. Active machines are published once they retire.",
+    wu_all:"all", wu_red:"red team", wu_blue:"blue team",
     about_p1:'I\'m <strong>Matias Renato López García</strong>, a <strong>Computer Engineering</strong> student at INACAP, based in Iquique, Chile. My strength is the offensive side of cybersecurity: pentesting, system enumeration and Linux privilege escalation, aiming to grow as a <strong>pentester and Red Teamer</strong>.',
     about_p2:'<span class="hl">eJPTv2</span> certified, I constantly train on <strong>Hack The Box</strong>, <strong>TryHackMe</strong> and OffSec, and build my own labs with Kali Linux. I develop my own tools in <span class="hl">Python</span> and <span class="hl">Bash</span> to automate audit phases.',
     about_p3:"Self-taught, persistent and deeply curious: I want to understand how systems really work, beyond just using tools. My approach: think like an attacker to find the vulnerabilities before they do.",
@@ -525,7 +646,7 @@ function applyTheme(){
   document.documentElement.setAttribute("data-theme", theme);
   themeBtn.textContent = theme === "dark" ? "☀" : "☾";
 }
-langBtn.addEventListener("click", ()=>{ lang = lang==="es"?"en":"es"; localStorage.setItem("lang",lang); applyLang(); });
+langBtn.addEventListener("click", ()=>{ lang = lang==="es"?"en":"es"; localStorage.setItem("lang",lang); applyLang(); if (typeof renderWriteups === "function") renderWriteups(); });
 themeBtn.addEventListener("click", ()=>{ theme = theme==="dark"?"light":"dark"; localStorage.setItem("theme",theme); applyTheme(); });
 applyLang(); applyTheme();
 
@@ -545,6 +666,134 @@ function type(){
   }
 }
 type();
+
+/* ---------- writeups ----------
+   CÓMO PUBLICAR un writeup (cuando la máquina se retira de HTB):
+     1. En este objeto, poner  published:true
+     2. En el archivo writeups/<maquina>.html, rellenar los  data-val="..."  de cada
+        <span class="secret"> con las flags/credenciales reales.
+     3. git add writeups/<maquina>.html  y commitear.
+   Mientras published:false → la máquina sale como tarjeta BLOQUEADA (sin enlace ni datos).
+   VISTA PREVIA (solo para ti): abre el índice con  ?preview  en la URL
+   (ej. index.html?preview) y las tarjetas en borrador se vuelven clicables para revisarlas.
+   CÓMO AGREGAR una máquina nueva: copia writeups/silentium.html como plantilla y
+   añade un objeto aquí con los mismos campos.                                        */
+const WU_PREVIEW = new URLSearchParams(location.search).has("preview");
+const WRITEUPS = [
+  {
+    id:"silentium",
+    name:"Silentium",
+    platform:"HTB",
+    os:"Linux",
+    difficulty:"easy",        // easy | medium | hard | insane
+    category:"red",           // red | blue
+    status:"active",          // active | retired
+    date:"2026-08-15",
+    published:false,
+    file:"writeups/silentium.html",
+    // avatar oficial de HTB (hotlink). Para alojarlo local: image:"assets/writeups/silentium.png"
+    image:"https://cdn.services-k8s.prod.aws.htb.systems/content/machines/avatar/a172cdb2-e7e8-41aa-9eda-c639fe85270f.png",
+    achievement:"https://labs.hackthebox.com/achievement/machine/1082773/867",
+    solve:{rank:"#9612",date:"15 Aug 2026",xp:585},
+    tags:["Web","CVE Chain","Docker","PrivEsc"],
+    desc:{
+      es:"Cadena de compromiso completa: account takeover en Flowise (CVE-2025-58434), RCE vía CustomMCP (CVE-2025-59528), pivote por reutilización de credenciales y root a través de Gogs (CVE-2025-8110).",
+      en:"Full compromise chain: Flowise account takeover (CVE-2025-58434), RCE via CustomMCP (CVE-2025-59528), credential-reuse pivot and root through Gogs (CVE-2025-8110)."
+    }
+  }
+];
+
+const WU_LABELS = {
+  es:{ difficulty:{easy:"Fácil",medium:"Media",hard:"Difícil",insane:"Insana"},
+       status:{active:"Activa · en preparación",retired:"Retirada"},
+       read:"leer writeup →", locked:"🔒 se publica al retirar", draft:"👁 ver borrador →",
+       solved:"✓ solve verificado ↗", empty:"Aún no hay writeups en esta categoría.",
+       preview:"⟢ modo vista previa — las tarjetas en borrador son clicables solo para ti." },
+  en:{ difficulty:{easy:"Easy",medium:"Medium",hard:"Hard",insane:"Insane"},
+       status:{active:"Active · in preparation",retired:"Retired"},
+       read:"read writeup →", locked:"🔒 published when retired", draft:"👁 view draft →",
+       solved:"✓ verified solve ↗", empty:"No writeups in this category yet.",
+       preview:"⟢ preview mode — draft cards are clickable for your eyes only." }
+};
+
+let currentWuFilter = "all";
+const wuGrid = document.getElementById("wuGrid");
+
+function wuEsc(s){ return String(s).replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c])); }
+
+function wuThumb(w){
+  if (w.image){
+    return `<div class="wu-thumb">
+        <img src="${wuEsc(w.image)}" alt="${wuEsc(w.name)}" loading="lazy"
+             onerror="this.style.display='none';this.nextElementSibling.style.display='flex';">
+        <div class="wu-img-ph" style="display:none">${wuEsc(w.name[0])}</div>
+      </div>`;
+  }
+  return `<div class="wu-thumb"><div class="wu-img-ph" style="display:flex">${wuEsc(w.name[0])}</div></div>`;
+}
+
+function writeupCard(w){
+  const L = WU_LABELS[lang];
+  const live = w.published === true;
+  const clickable = live || WU_PREVIEW;   // en modo preview, los borradores se pueden abrir
+  const catClass = w.category === "blue" ? "cat-blue" : "cat-red";
+  const catLabel = w.category === "blue" ? I18N[lang].wu_blue : I18N[lang].wu_red;
+  const tags = w.tags.map(t=>`<span class="wu-tag">${wuEsc(t)}</span>`).join("");
+  const titleInner = `<span class="dir">~/</span>${wuEsc(w.name)}`;
+  const title = clickable
+    ? `<a class="wu-title wu-title-link" href="${wuEsc(w.file)}">${titleInner}</a>`
+    : `<span class="wu-title">${titleInner}</span>`;
+  const ach = w.achievement
+    ? `<a class="wu-ach" href="${wuEsc(w.achievement)}" target="_blank" rel="noopener" title="${wuEsc(w.solve&&w.solve.date||"")}">${L.solved}</a>`
+    : "";
+  const cta = live
+    ? `<a class="wu-cta" href="${wuEsc(w.file)}">${L.read}</a>`
+    : (clickable
+        ? `<a class="wu-cta" href="${wuEsc(w.file)}">${L.draft}</a>`
+        : `<span class="wu-cta locked-cta">${L.locked}</span>`);
+  return `<article class="wu-card ${catClass}${clickable?" pub":""}${live?"":" locked"}">
+      <div class="wu-head">
+        <div class="wu-idwrap">
+          ${wuThumb(w)}
+          <div class="wu-idtext">
+            ${title}
+            <div class="wu-platline">${wuEsc(w.os)}</div>
+          </div>
+        </div>
+        <span class="wu-platform">${wuEsc(w.platform)}</span>
+      </div>
+      <div class="wu-meta">
+        <span class="wu-chip ${catClass}"><span class="dot" style="background:currentColor"></span>${catLabel}</span>
+        <span class="wu-chip diff-${w.difficulty}">${L.difficulty[w.difficulty]||w.difficulty}</span>
+        <span class="wu-status ${w.status}">${L.status[w.status]||w.status}</span>
+      </div>
+      <p class="wu-desc">${wuEsc(w.desc[lang]||w.desc.es)}</p>
+      <div class="wu-tags">${tags}</div>
+      <div class="wu-foot">
+        <span class="wu-date">${wuEsc(w.date)}${ach}</span>
+        ${cta}
+      </div>
+    </article>`;
+}
+
+function renderWriteups(){
+  if (!wuGrid) return;
+  const list = WRITEUPS.filter(w => currentWuFilter === "all" || w.category === currentWuFilter);
+  const note = WU_PREVIEW ? `<div class="wu-preview-note">${WU_LABELS[lang].preview}</div>` : "";
+  wuGrid.innerHTML = note + (list.length
+    ? list.map(writeupCard).join("")
+    : `<div class="wu-empty">${WU_LABELS[lang].empty}</div>`);
+}
+
+document.querySelectorAll(".wu-filter").forEach(btn=>{
+  btn.addEventListener("click", ()=>{
+    document.querySelectorAll(".wu-filter").forEach(b=>b.classList.remove("active"));
+    btn.classList.add("active");
+    currentWuFilter = btn.getAttribute("data-filter");
+    renderWriteups();
+  });
+});
+renderWriteups();
 
 /* ---------- scroll reveal ---------- */
 const io = new IntersectionObserver(entries=>{
