@@ -124,7 +124,8 @@ h1 .accent{color:var(--green)}
 }
 .photo-wrap img{
   width:min(320px,70vw);aspect-ratio:1/1;object-fit:cover;
-  border-radius:16px;display:block;filter:saturate(.95);
+  border-radius:16px;display:block;
+  image-rendering:pixelated;background:#070a08;
 }
 .photo-tag{
   position:absolute;bottom:14px;left:14px;right:14px;
@@ -402,7 +403,7 @@ footer .r{color:var(--red)}
     </div>
   </div>
   <div class="photo-wrap">
-    <img src="assets/matias.jpg" alt="Matias López">
+    <img src="assets/avatar.svg" alt="Matias López — avatar pixel art">
     <div class="photo-tag">[<span class="ok">root</span>@iquique-cl]&nbsp;— eJPTv2</div>
   </div>
 </header>
