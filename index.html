@@ -682,6 +682,26 @@ type();
 const WU_PREVIEW = new URLSearchParams(location.search).has("preview");
 const WRITEUPS = [
   {
+    id:"management",
+    name:"Management",
+    platform:"HTB",
+    os:"Linux",
+    difficulty:"easy",        // easy | medium | hard | insane
+    category:"red",           // red | blue
+    status:"active",          // active | retired
+    date:"2026-09-17",
+    published:false,
+    file:"writeups/management.html",
+    image:"",                 // avatar oficial de HTB (hotlink) cuando lo tengas; vacío -> monograma "M"
+    achievement:"https://labs.hackthebox.com/achievement/machine/1082773/981",
+    // solve:{rank,date,xp} pendiente (rank/xp del logro) -> habilita la caja estilo HTB al publicar
+    tags:["OpenAM","CVE-2026-33439","LDAP","GLPI","PrivEsc"],
+    desc:{
+      es:"OpenAM 16.0.5: RCE pre-auth (CVE-2026-33439) -> saqueo del keystore JCEKS -> GLPI (svc-glpi descifrado con GLPIKey) -> reutilizacion de credencial hacia owen -> root abusando de sudo/rdiff-backup.",
+      en:"OpenAM 16.0.5: pre-auth RCE (CVE-2026-33439) -> JCEKS keystore looting -> GLPI (svc-glpi decrypted via GLPIKey) -> credential reuse to owen -> root by abusing sudo/rdiff-backup."
+    }
+  },
+  {
     id:"devhub",
     name:"DevHub",
     platform:"HTB",
