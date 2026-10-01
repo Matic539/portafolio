@@ -682,6 +682,26 @@ type();
 const WU_PREVIEW = new URLSearchParams(location.search).has("preview");
 const WRITEUPS = [
   {
+    id:"layover",
+    name:"Layover",
+    platform:"HTB",
+    os:"Linux",
+    difficulty:"medium",      // easy | medium | hard | insane
+    category:"red",           // red | blue
+    status:"active",          // active | retired
+    date:"2026-09-28",
+    published:false,
+    file:"writeups/layover.html",
+    image:"https://cdn.services-k8s.prod.aws.htb.systems/content/machines/avatar/a2cc2776-5507-42ae-b9d0-3346ff823ce7-1789977190.png",                 // avatar oficial de HTB (hotlink); vacio -> monograma "L"
+    achievement:"https://labs.hackthebox.com/achievement/machine/1082773/984",
+    // solve:{rank,date,xp} pendiente (rank/xp del logro) -> habilita la caja estilo HTB al publicar
+    tags:["RDP","WiFi Sniffing","Craft CMS","CVE-2026-31857","CUPS","CVE-2026-34990"],
+    desc:{
+      es:"Escenario de pentest real: RDP + sudo reuse (root local, pivot) -> WiFi interna abierta (sniffing de credencial) -> Craft CMS 5.9.8 RCE autenticado (CVE-2026-31857) -> secreto cifrado en BD descifrado con yii Security -> SSH reutilizado -> root via CUPS (CVE-2026-34990).",
+      en:"Real-pentest scenario: RDP + sudo reuse (local root, pivot) -> open internal WiFi (credential sniffing) -> Craft CMS 5.9.8 authenticated RCE (CVE-2026-31857) -> encrypted DB secret decrypted via yii Security -> reused SSH credential -> root via CUPS (CVE-2026-34990)."
+    }
+  },
+  {
     id:"smarthire",
     name:"SmartHire",
     platform:"HTB",
