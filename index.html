@@ -300,6 +300,7 @@ section{padding:72px 0}
 .wu-chip.cat-red{color:var(--red);border-color:var(--red);background:var(--red-dim)}
 .wu-chip.cat-blue{color:var(--blue);border-color:var(--blue);background:var(--blue-dim)}
 .wu-chip .dot{width:7px;height:7px;border-radius:50%;display:inline-block}
+.diff-very-easy{color:var(--green)}
 .diff-easy{color:var(--green)}
 .diff-medium{color:var(--yellow)}
 .diff-hard{color:var(--red)}
@@ -324,6 +325,7 @@ section{padding:72px 0}
 }
 .wu-status.active{color:var(--yellow);border:1px solid var(--yellow);background:#f7b32b14}
 .wu-status.retired{color:var(--green);border:1px solid var(--green);background:var(--green-dim)}
+.wu-status.solved{color:var(--green);border:1px solid var(--green);background:var(--green-dim)}
 
 /* certs */
 .cert-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:20px}
@@ -682,6 +684,45 @@ type();
 const WU_PREVIEW = new URLSearchParams(location.search).has("preview");
 const WRITEUPS = [
   {
+    id:"unit42",
+    name:"Unit42",
+    platform:"HTB",
+    os:"Windows · Sysmon",
+    difficulty:"very-easy",   // very-easy | easy | medium | hard | insane
+    category:"blue",          // red | blue
+    status:"solved",          // active | retired | solved
+    date:"2026-10-18",
+    published:true,
+    file:"writeups/unit42.html",
+    image:"https://cdn.services-k8s.prod.aws.htb.systems/content/sherlocks/avatar/9e4d9103-d28e-4dba-b313-ac6255362411.png",   // avatar oficial del Sherlock (hotlink); vacio -> monograma "U"
+    achievement:"https://labs.hackthebox.com/achievement/sherlock/1082773/632",
+    tags:["Sysmon","Event Viewer","Log Analysis","Timestomping","MITRE ATT&CK","UltraVNC"],
+    desc:{
+      es:"Sherlock DFIR: analisis de logs de Sysmon con Event Viewer para reconstruir el acceso inicial de una campaña de UltraVNC troyanizado. Dropper con doble extension via Dropbox (T1036), chequeo de conectividad, rafaga de instalacion del backdoor, timestomping del PDF señuelo (T1070.006) y autoterminacion. Resuelto 8/8.",
+      en:"DFIR Sherlock: Sysmon log analysis with Event Viewer to reconstruct the initial access of a backdoored UltraVNC campaign. Double-extension dropper via Dropbox (T1036), connectivity check, backdoor install burst, decoy PDF timestomping (T1070.006) and self-termination. Solved 8/8."
+    }
+  },
+  {
+    id:"touch",
+    name:"Touch",
+    platform:"HTB",
+    os:"Windows",
+    difficulty:"easy",        // easy | medium | hard | insane
+    category:"red",           // red | blue
+    status:"active",          // active | retired
+    date:"2026-10-07",
+    published:false,
+    file:"writeups/touch.html",
+    image:"https://cdn.services-k8s.prod.aws.htb.systems/content/machines/avatar/a2cc2bba-5e0b-41f2-842e-2f3d3cee8d22-1789977906.png",                 // avatar oficial de HTB (hotlink); vacio -> monograma "T"
+    achievement:"https://labs.hackthebox.com/achievement/machine/1082773/987",
+    // solve:{rank,date,xp} pendiente (rank/xp del logro) -> habilita la caja estilo HTB al publicar
+    tags:["Information Disclosure","Nexion DeviceHub","Kiosk Breakout","RDP","MySQL UDF","PrivEsc"],
+    desc:{
+      es:"Windows kiosco de aeropuerto (saga Layover): /api/status filtra el serial = Device password del panel Nexion DeviceHub -> credenciales en claro -> RDP en modo kiosco (HTB Airways) -> kiosk breakout via error nativo de Windows -> user.txt -> root de MySQL filtrado + plugin_dir escribible -> UDF lib_mysqludf_sys -> SYSTEM.",
+      en:"Windows airport kiosk (Layover saga): /api/status leaks the serial = Nexion DeviceHub Device password -> cleartext credentials -> RDP in kiosk mode (HTB Airways) -> kiosk breakout via native Windows error -> user.txt -> leaked MySQL root + writable plugin_dir -> lib_mysqludf_sys UDF -> SYSTEM."
+    }
+  },
+  {
     id:"layover",
     name:"Layover",
     platform:"HTB",
@@ -784,13 +825,13 @@ const WRITEUPS = [
 ];
 
 const WU_LABELS = {
-  es:{ difficulty:{easy:"Fácil",medium:"Media",hard:"Difícil",insane:"Insana"},
-       status:{active:"Activa · en preparación",retired:"Retirada"},
+  es:{ difficulty:{"very-easy":"Muy fácil",easy:"Fácil",medium:"Media",hard:"Difícil",insane:"Insana"},
+       status:{active:"Activa · en preparación",retired:"Retirada",solved:"Resuelto · 8/8"},
        read:"leer writeup →", locked:"🔒 se publica al retirar", draft:"👁 ver borrador →",
        solved:"✓ solve verificado ↗", empty:"Aún no hay writeups en esta categoría.",
        preview:"⟢ modo vista previa — las tarjetas en borrador son clicables solo para ti." },
-  en:{ difficulty:{easy:"Easy",medium:"Medium",hard:"Hard",insane:"Insane"},
-       status:{active:"Active · in preparation",retired:"Retired"},
+  en:{ difficulty:{"very-easy":"Very Easy",easy:"Easy",medium:"Medium",hard:"Hard",insane:"Insane"},
+       status:{active:"Active · in preparation",retired:"Retired",solved:"Solved · 8/8"},
        read:"read writeup →", locked:"🔒 published when retired", draft:"👁 view draft →",
        solved:"✓ verified solve ↗", empty:"No writeups in this category yet.",
        preview:"⟢ preview mode — draft cards are clickable for your eyes only." }
