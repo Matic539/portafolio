@@ -684,6 +684,27 @@ type();
 const WU_PREVIEW = new URLSearchParams(location.search).has("preview");
 const WRITEUPS = [
   {
+    id:"baggage",
+    name:"Baggage",
+    platform:"HTB",
+    os:"Windows · Shellbags",
+    difficulty:"very-easy",   // very-easy | easy | medium | hard | insane
+    category:"blue",          // red | blue
+    status:"active",          // active | retired | solved
+    date:"2026-10-24",
+    published:false,
+    file:"writeups/baggage.html",
+    image:"https://cdn.services-k8s.prod.aws.htb.systems/content/sherlocks/avatar/a26e1014-0bf7-47bb-8f7b-ea251ad23d2d-1785935998.png",   // avatar oficial del Sherlock (hotlink); vacio -> monograma "B"
+    achievement:"https://labs.hackthebox.com/achievement/sherlock/1082773/1359",
+    // Sherlock ACTIVO -> published:false (tarjeta bloqueada) + linea en .gitignore + respuestas censuradas en baggage.html.
+    // solve:{rank,date,xp} pendiente (rank/xp del logro) -> habilita la caja estilo HTB al publicar (cuando se retire).
+    tags:["Shellbags","ShellBags Explorer","Registry Forensics","KAPE","Data Exfiltration","MITRE ATT&CK"],
+    desc:{
+      es:"Sherlock DFIR (Registry Forensics): analisis de Shellbags con ShellBags Explorer (Eric Zimmerman) sobre el UsrClass.dat de la cuenta comprometida -> descarga de la utilidad Everything -> acceso a carpetas con VPN OT y contraseñas -> saqueo de un network share con los planos de una represa -> staging y compresion del paquete para exfiltrar. Resuelto 10/10; respuestas censuradas por ser Sherlock activo.",
+      en:"DFIR Sherlock (Registry Forensics): Shellbag analysis with ShellBags Explorer (Eric Zimmerman) over the compromised account's UsrClass.dat -> download of the Everything utility -> access to OT VPN and password folders -> pillaging a network share with a dam's plans -> staging and compressing the package to exfiltrate. Solved 10/10; answers redacted while the Sherlock is active."
+    }
+  },
+  {
     id:"unit42",
     name:"Unit42",
     platform:"HTB",
