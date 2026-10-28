@@ -810,12 +810,13 @@ const WRITEUPS = [
     os:"Linux",
     difficulty:"medium",      // easy | medium | hard | insane
     category:"red",           // red | blue
-    status:"active",          // active | retired
+    status:"retired",          // active | retired
     date:"2026-08-25",
-    published:false,
+    published:true,
     file:"writeups/devhub.html",
     image:"https://cdn.services-k8s.prod.aws.htb.systems/content/machines/avatar/a1e13a3f-a4e4-4757-94e4-32b2e0d693c0-1779887169.png",
-    // achievement/solve: pendiente que el usuario pase el link de logro + rank/xp (como Silentium)
+    achievement:"https://labs.hackthebox.com/achievement/machine/1082773/903",
+    solve:{rank:"#8217",date:"25 Aug 2026",xp:845},
     tags:["MCP","RCE","Jupyter","PrivEsc"],
     desc:{
       es:"Cadena vía Model Context Protocol: RCE no autenticado en MCPJam Inspector (CVE-2026-23744) → mcp-dev → token de Jupyter filtrado por ps → analyst → tool oculta en un MCP interno que corre como root → root.",
